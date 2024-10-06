@@ -1,8 +1,10 @@
 import * as THREE from 'three'
-import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 
+import { CSG } from 'three-csg-ts'
 
-export class Plane {
+// import { createElementFromHTML } from '../../../utils/dom_from_string'
+
+export default class Plane {
 
 
     mesh
@@ -10,23 +12,23 @@ export class Plane {
     mouse
 
 
-    constructor({ width, height, depth, texture, onClick, camera }) {
+    constructor({ width, height, depth, texture, onClick, camera, radius }) {
 
-        const geometry = new RoundedBoxGeometry( width, height, depth, 10, .1 );
+        this.onClick = onClick
+        this.camera = camera
+        this.canvas = document.querySelector('#c')
 
         const loader = new THREE.TextureLoader();
         const loader_texture = loader.load( texture );
         loader_texture.colorSpace = THREE.SRGBColorSpace;
 
 
-        const material = new THREE.MeshBasicMaterial({
-            map: loader_texture,
-        })
-
-        this.onClick = onClick
-        this.camera = camera
-        this.canvas = document.querySelector('#c')
-        this.mesh = new THREE.Mesh(geometry, material)
+        this.mesh = new THREE.Mesh(
+            new THREE.BoxGeometry( width, height, depth ),
+            new THREE.MeshBasicMaterial({
+                map: loader_texture
+            })
+        )
 
 
         this.raycaster = new THREE.Raycaster()
@@ -52,4 +54,23 @@ export class Plane {
 
         isIntersected.length && this.onClick( this.mesh )
     }
+
+    // buildMenu() {
+    //     const menu = createElementFromHTML(
+    //         `
+    //         <div>
+    //             <input type="range" id="width" name="width" min="1" max="100" />
+    //             <label for="width">Width</label>
+    //         </div>
+    //         <div>
+    //             <input type="range" id="width" name="width" min="1" max="100" />
+    //             <label for="width">Width</label>
+    //         </div>
+    //         <div>
+    //             <input type="range" id="width" name="width" min="1" max="100" />
+    //             <label for="width">Width</label>
+    //         </div>
+    //         `
+    //     )
+    // }
 }

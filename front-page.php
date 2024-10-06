@@ -16,6 +16,7 @@ get_header();
 ?>
 
 	<canvas id="c"></canvas>
+	<div class="menu"></div>
 
 	<main id="primary" class="site-main">
 

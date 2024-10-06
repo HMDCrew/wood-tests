@@ -1,6 +1,9 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { Plane } from './inc/elements/Plane'
+import { TransformControls } from 'three/addons/controls/TransformControls.js';
+
+
+import Plane from './inc/elements/Plane'
 import wood from '../../images/wood.jpeg'
 
 // import GUI from 'lil-gui';
@@ -42,11 +45,6 @@ const gridHelper = new THREE.GridHelper( size, divisions );
 scene.add( gridHelper );
 
 
-
-// const geometry = new THREE.BoxGeometry( 10, 10, 4 )
-
-// const m1 = new THREE.MeshBasicMaterial({color: 0xFF0000})
-//console.log(wood)
 const plane = new Plane({
     width: 10,
     height: 10,
@@ -56,9 +54,60 @@ const plane = new Plane({
     onClick: ( mesh ) => console.log(mesh)
 })
 
-// //const mesh = new THREE.Mesh(geometry, m1);
 scene.add(plane)
 
+
+
+
+const control = new TransformControls( camera, canvas );
+
+control.attach( plane );
+
+const gizmo = control.getHelper();
+				scene.add( gizmo );
+
+
+
+
+
+class CustomSinCurve extends THREE.Curve {
+
+	constructor( scale ) {
+
+		super();
+		this.scale = scale;
+
+	}
+	getPoint( t ) {
+
+		const tx = t;
+		const ty = 0// Math.sin( 2 * Math.PI * t );
+		const tz = 0;
+		return new THREE.Vector3( tx, ty, tz ).multiplyScalar( this.scale );
+
+	}
+
+}
+
+const path = new CustomSinCurve( 10 );
+const tubularSegments = 100;  
+
+const radius =  1.5;  
+
+const radialSegments = 30;  
+
+const closed = false;  
+const geometry = new THREE.TubeGeometry(
+	path, tubularSegments, radius, radialSegments, closed );
+
+    const tube = new THREE.Mesh(
+        geometry,
+        new THREE.MeshBasicMaterial({
+            color: 0x00FF00
+        })
+    )
+
+    scene.add(tube)
 
 
 const render = (time) => {
@@ -77,5 +126,13 @@ const render = (time) => {
 
     renderer.render(scene, camera)
 }
+
+control.addEventListener( 'change', render );
+control.addEventListener( 'dragging-changed', function ( event ) {
+
+    controls.enabled = ! event.value;
+
+} );
+
 
 requestAnimationFrame(render)
