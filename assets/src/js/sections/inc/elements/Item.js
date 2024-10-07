@@ -21,15 +21,15 @@ export class Item {
         this.box       = new BoxHelper( this.meshes, 0x00ff00 )
         this.gizmo     = new TransformControls( this.camera, this.canvas )
 
-        // this.gizmo.setMode('scale')
-        // this.gizmo.setMode('rotate')
-        // this.gizmo.setMode('translate')
+        this.gizmoMode = 'translate'
+        this.gizmo.setMode( this.gizmoMode )
 
         const helepr = this.gizmo.getHelper()
         this.scene.add( helepr )
 
         this.canvas.addEventListener( 'mousemove',        ev => this.onMouseMove( ev ), false      )
         this.canvas.addEventListener( 'click',            ev => this.onMouseClick( ev ), false     )
+        this.canvas.addEventListener( 'dblclick',         ev => this.onMouseDbClick( ev ), false   )
         this.gizmo.addEventListener ( 'dragging-changed', ev => this.controls.enabled = ! ev.value )
     }
 
@@ -68,5 +68,24 @@ export class Item {
 
     onClick( listener = (itemMesh) => {} ) {
         this.clickEmite = listener
+    }
+
+
+    onMouseDbClick( ev ) {
+
+        this.raycaster.setFromCamera( this.mouse, this.camera )
+
+        const intersected = this.raycaster.intersectObject( this.meshes )
+
+        if ( intersected.length ) {
+
+            this.gizmoMode = (
+                this.gizmoMode === 'translate'
+                ? 'rotate'
+                : 'translate'
+            )
+
+            this.gizmo.setMode( this.gizmoMode )
+        }
     }
 }
