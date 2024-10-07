@@ -1,58 +1,32 @@
-import * as THREE from 'three'
+import { TextureLoader, Mesh, BoxGeometry, MeshBasicMaterial, SRGBColorSpace } from 'three'
+//import { CSG } from 'three-csg-ts'
 
-import { CSG } from 'three-csg-ts'
+import { Item } from './Item'
 
-// import { createElementFromHTML } from '../../../utils/dom_from_string'
+export default class Plane extends Item {
 
-export default class Plane {
+    constructor( shared, { width, height, depth, texture, click } ) {
 
-
-    mesh
-    raycaster
-    mouse
+        super( shared )
 
 
-    constructor({ width, height, depth, texture, onClick, camera, radius }) {
-
-        this.onClick = onClick
-        this.camera = camera
-        this.canvas = document.querySelector('#c')
-
-        const loader = new THREE.TextureLoader();
-        const loader_texture = loader.load( texture );
-        loader_texture.colorSpace = THREE.SRGBColorSpace;
+        const loader = new TextureLoader()
+        const loader_texture = loader.load( texture )
+        loader_texture.colorSpace = SRGBColorSpace
 
 
-        this.mesh = new THREE.Mesh(
-            new THREE.BoxGeometry( width, height, depth ),
-            new THREE.MeshBasicMaterial({
+        this.mesh = new Mesh(
+            new BoxGeometry( width, height, depth ),
+            new MeshBasicMaterial({
+                // wireframe: true,
                 map: loader_texture
             })
         )
 
+        this.meshes.add( this.mesh )
+        this.onClick(click)
 
-        this.raycaster = new THREE.Raycaster()
-        this.mouse = new THREE.Vector2()
-        window.addEventListener( 'mousemove', ev => this.onMouseMove( ev ), false )
-        window.addEventListener( 'click', ev => this.onMouseClick( ev ), false );
-
-
-        return this.mesh
-    }
-
-
-    onMouseMove( ev ) {
-        this.mouse.x = ( ev.clientX / this.canvas.width ) * 2 - 1
-        this.mouse.y = - ( ev.clientY / this.canvas.height ) * 2 + 1
-    }
-
-
-    onMouseClick( event ) {
-
-        this.raycaster.setFromCamera( this.mouse, this.camera )
-        const isIntersected = this.raycaster.intersectObject( this.mesh, false )
-
-        isIntersected.length && this.onClick( this.mesh )
+        return this.meshes
     }
 
     // buildMenu() {

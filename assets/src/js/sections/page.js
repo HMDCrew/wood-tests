@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { TransformControls } from 'three/addons/controls/TransformControls.js';
 
 
 import Plane from './inc/elements/Plane'
@@ -64,7 +63,7 @@ const control = new TransformControls( camera, canvas );
 control.attach( plane );
 
 const gizmo = control.getHelper();
-				scene.add( gizmo );
+scene.add( gizmo );
 
 
 
@@ -127,12 +126,12 @@ const render = (time) => {
     renderer.render(scene, camera)
 }
 
-control.addEventListener( 'change', render );
+// control.addEventListener( 'change', render );
 control.addEventListener( 'dragging-changed', function ( event ) {
 
     controls.enabled = ! event.value;
 
-} );
+});
 
 
 requestAnimationFrame(render)
