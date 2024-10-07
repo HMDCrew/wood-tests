@@ -18,18 +18,19 @@ export class Item {
         this.meshes    = new Group()
         this.raycaster = new Raycaster()
         this.mouse     = new Vector2()
-        this.box       = new BoxHelper( this.meshes, 0x00ff00 );
+        this.box       = new BoxHelper( this.meshes, 0x00ff00 )
+        this.gizmo     = new TransformControls( this.camera, this.canvas )
 
+        // this.gizmo.setMode('scale')
+        // this.gizmo.setMode('rotate')
+        // this.gizmo.setMode('translate')
 
-        this.gizmo = new TransformControls( this.camera, this.canvas )
         const helepr = this.gizmo.getHelper()
         this.scene.add( helepr )
 
-
-        this.canvas.addEventListener( 'mousemove', ev => this.onMouseMove( ev ), false )
-        this.canvas.addEventListener( 'click', ev => this.onMouseClick( ev ), false )
-
-        this.gizmo.addEventListener( 'dragging-changed', ( event ) => this.controls.enabled = ! event.value )
+        this.canvas.addEventListener( 'mousemove',        ev => this.onMouseMove( ev ), false      )
+        this.canvas.addEventListener( 'click',            ev => this.onMouseClick( ev ), false     )
+        this.gizmo.addEventListener ( 'dragging-changed', ev => this.controls.enabled = ! ev.value )
     }
 
 
