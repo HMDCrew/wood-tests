@@ -1,4 +1,4 @@
-import { WebGLRenderer, PerspectiveCamera, Scene, GridHelper } from 'three'
+import { WebGLRenderer, PerspectiveCamera, Scene, GridHelper, AmbientLight, TubeGeometry, Mesh, MeshBasicMaterial, Vector3, Curve } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
 import { Plane } from "./inc/elements/Plane"
@@ -53,7 +53,13 @@ export class World {
 
 
     testing() {
-        
+
+        const color = 0xFFFFFF;
+        const intensity = 2;
+        const light = new AmbientLight(color, intensity);
+        light.position.copy(this.camera.position)
+        this.scene.add(light);
+
         const plane = new Plane(this.shared, {
             width: 10,
             height: 10,
@@ -64,6 +70,52 @@ export class World {
         plane.onClick( mesh => console.log(mesh) )
 
         this.scene.add(plane.get())
+
+
+
+
+
+
+
+
+
+        class CustomSinCurve extends Curve {
+
+            constructor( scale ) {
+
+                super();
+                this.scale = scale;
+
+            }
+            getPoint( t ) {
+
+                const tx = t;
+                const ty = 0// Math.sin( 2 * Math.PI * t );
+                const tz = 0;
+                return new Vector3( tx, ty, tz ).multiplyScalar( this.scale );
+
+            }
+
+        }
+
+        const path = new CustomSinCurve( 10 );
+        const tubularSegments = 100;  
+
+        const radius =  1.5;  
+
+        const radialSegments = 30;  
+
+        const closed = false;  
+        const geometry = new TubeGeometry( path, tubularSegments, radius, radialSegments, closed );
+
+        const tube = new Mesh(
+            geometry,
+            new MeshBasicMaterial({
+                color: 0x00FF00
+            })
+        )
+
+        this.scene.add(tube)
     }
 
 

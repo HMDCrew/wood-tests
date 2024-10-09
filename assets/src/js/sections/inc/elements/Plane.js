@@ -1,9 +1,10 @@
-import { TextureLoader, Mesh, BoxGeometry, MeshBasicMaterial, MeshLambertMaterial, SRGBColorSpace } from 'three'
+import { TextureLoader, Mesh, BoxGeometry, MeshLambertMaterial, SRGBColorSpace } from 'three'
 //import { CSG } from 'three-csg-ts'
 
 import { Item } from './Item'
 
 export class Plane extends Item {
+
 
     constructor( shared, { width, height, depth } ) {
 
@@ -15,8 +16,6 @@ export class Plane extends Item {
                 color: 0x8c8c8c
             })
         )
-
-        this.setTexture( texture )
 
         this.meshes.add( this.mesh )
     }
@@ -33,9 +32,11 @@ export class Plane extends Item {
         })
     }
 
+
     get() {
         return this.meshes
     }
+
 
     // buildMenu() {
     //     const menu = createElementFromHTML(
