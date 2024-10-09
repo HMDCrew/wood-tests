@@ -1,7 +1,7 @@
 import { WebGLRenderer, PerspectiveCamera, Scene, GridHelper } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
-import Plane from "./inc/elements/Plane"
+import { Plane } from "./inc/elements/Plane"
 import wood from '../../images/wood.jpeg'
 
 export class World {
@@ -58,11 +58,12 @@ export class World {
             width: 10,
             height: 10,
             depth: 4,
-            texture: wood,
-            click: ( mesh ) => console.log(mesh)
         })
 
-        this.scene.add(plane)
+        plane.setTexture( wood )
+        plane.onClick( mesh => console.log(mesh) )
+
+        this.scene.add(plane.get())
     }
 
 

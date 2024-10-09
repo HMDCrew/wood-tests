@@ -1,31 +1,39 @@
-import { TextureLoader, Mesh, BoxGeometry, MeshBasicMaterial, SRGBColorSpace } from 'three'
+import { TextureLoader, Mesh, BoxGeometry, MeshBasicMaterial, MeshLambertMaterial, SRGBColorSpace } from 'three'
 //import { CSG } from 'three-csg-ts'
 
 import { Item } from './Item'
 
-export default class Plane extends Item {
+export class Plane extends Item {
 
-    constructor( shared, { width, height, depth, texture, click } ) {
+    constructor( shared, { width, height, depth } ) {
 
         super( shared )
 
-
-        const loader = new TextureLoader()
-        const loader_texture = loader.load( texture )
-        loader_texture.colorSpace = SRGBColorSpace
-
-
         this.mesh = new Mesh(
             new BoxGeometry( width, height, depth ),
-            new MeshBasicMaterial({
-                // wireframe: true,
-                map: loader_texture
+            new MeshLambertMaterial({
+                color: 0x8c8c8c
             })
         )
 
-        this.meshes.add( this.mesh )
-        this.onClick(click)
+        this.setTexture( texture )
 
+        this.meshes.add( this.mesh )
+    }
+
+
+    setTexture( texture ) {
+
+        const loader = new TextureLoader()
+        const loaderTexture = loader.load( texture )
+        loaderTexture.colorSpace = SRGBColorSpace
+
+        this.mesh.material = new MeshLambertMaterial({
+            map: loaderTexture
+        })
+    }
+
+    get() {
         return this.meshes
     }
 
