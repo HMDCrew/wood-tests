@@ -5,6 +5,7 @@ import { TransformControls } from 'three/addons/controls/TransformControls.js'
 export class Item {
 
     meshes
+    gizmoVisible = false
     clickEmite
 
     constructor({ canvas, renderer, camera, scene, controls }) {
@@ -21,16 +22,16 @@ export class Item {
         this.box       = new BoxHelper( this.meshes, 0x00ff00 )
         this.gizmo     = new TransformControls( this.camera, this.canvas )
 
-        this.gizmoMode = 'translate'
-        this.gizmo.setMode( this.gizmoMode )
-
         const helepr = this.gizmo.getHelper()
         this.scene.add( helepr )
 
         this.canvas.addEventListener( 'mousemove',        ev => this.onMouseMove( ev ), false      )
         this.canvas.addEventListener( 'click',            ev => this.onMouseClick( ev ), false     )
-        this.canvas.addEventListener( 'dblclick',         ev => this.onMouseDbClick( ev ), false   )
+        // this.canvas.addEventListener( 'dblclick',        ev => this.onMouseDbClick( ev ), false   )
         this.gizmo.addEventListener ( 'dragging-changed', ev => this.controls.enabled = ! ev.value )
+
+        document.addEventListener('keydown', ev => this.updateGizmoMode( ev, 'rotate' ) )
+        document.addEventListener('keyup', ev => this.updateGizmoMode( ev, 'translate' ) )
     }
 
 
@@ -55,6 +56,7 @@ export class Item {
 
             this.gizmo.attach( this.meshes )
             this.scene.add( this.box )
+            this.gizmoVisible = true
 
             this.clickEmite( this.meshes )
 
@@ -62,6 +64,7 @@ export class Item {
 
             this.scene.remove( this.box )
             this.gizmo.detach()
+            this.gizmoVisible = false
         }
     }
 
@@ -71,21 +74,20 @@ export class Item {
     }
 
 
-    onMouseDbClick( ev ) {
+    updateGizmoMode( ev, mode ) {
 
-        this.raycaster.setFromCamera( this.mouse, this.camera )
-
-        const intersected = this.raycaster.intersectObject( this.meshes )
-
-        if ( intersected.length ) {
-
-            this.gizmoMode = (
-                this.gizmoMode === 'translate'
-                ? 'rotate'
-                : 'translate'
-            )
-
-            this.gizmo.setMode( this.gizmoMode )
+        if ( ev.key === "Shift" && this.gizmoVisible ) {
+            this.gizmo.setMode( mode )
         }
     }
+
+    // onMouseDbClick( ev ) {
+
+    //     this.raycaster.setFromCamera( this.mouse, this.camera )
+
+    //     const intersected = this.raycaster.intersectObject( this.meshes )
+
+    //     if ( intersected.length ) {
+    //     }
+    // }
 }
