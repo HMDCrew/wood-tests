@@ -6,12 +6,9 @@ import {
     AmbientLight,
     BoxGeometry,
     Mesh,
-    SphereGeometry,
     MeshStandardMaterial,
     TextureLoader,
     SRGBColorSpace,
-    MeshPhongMaterial,
-    Vector3,
 } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
@@ -19,6 +16,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { Plane } from "./inc/elements/Plane"
 import { Tube } from './inc/elements/Tube'
 import wood from '../../images/wood.jpeg'
+
 
 export class World {
 
@@ -93,6 +91,44 @@ export class World {
 
         // this.scene.add(tube.get())
         this.scene.add(plane.get())
+
+
+
+
+        const loader = new TextureLoader()
+        const loaderTexture = loader.load( wood )
+        loaderTexture.colorSpace = SRGBColorSpace
+
+        // Crea una BoxGeometry di base
+        let g = new BoxGeometry(3, 3, 3);
+
+        const vertexBox = (boxGeometry) => {
+            let pos = boxGeometry.attributes.position;
+
+            for (let i = 0; i < pos.count; i++) {
+                let x = pos.getX(i);
+                let y = pos.getY(i);
+
+                if (y < 0) {
+
+                    pos.setX(i, 0); 
+
+                    if (x === 0) {
+                        pos.setZ(i, -1);
+                    }
+                }
+            }
+            
+            boxGeometry.computeVertexNormals();
+        }; 
+
+        vertexBox(g); // prisma
+
+        let m = new MeshStandardMaterial({ map: loaderTexture });
+        let o = new Mesh(g, m);
+        // o.rotateZ(45)
+        // o.rotation.z = (Math.PI * 3) / 4; // 135 gradi in radianti
+        this.scene.add(o);
     }
 
 
