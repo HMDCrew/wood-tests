@@ -100,7 +100,7 @@ export class World {
         loaderTexture.colorSpace = SRGBColorSpace
 
         // Crea una BoxGeometry di base
-        let g = new BoxGeometry(3, 3, 3);
+        let g = new BoxGeometry(3, 3/2, 3);
 
         const vertexBox = (boxGeometry) => {
             let pos = boxGeometry.attributes.position;
@@ -127,7 +127,7 @@ export class World {
         let m = new MeshStandardMaterial({ map: loaderTexture });
         let o = new Mesh(g, m);
         // o.rotateZ(45)
-        // o.rotation.z = (Math.PI * 3) / 4; // 135 gradi in radianti
+        o.rotation.z = (Math.PI * 3) / 4; // 135 gradi in radianti
         this.scene.add(o);
     }
 
