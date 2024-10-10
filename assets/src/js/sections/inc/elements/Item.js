@@ -58,7 +58,7 @@ export class Item {
             this.scene.add( this.box )
             this.gizmoVisible = true
 
-            this.clickEmite( this.meshes )
+            this.clickEmite && this.clickEmite( this.meshes )
 
         } else {
 

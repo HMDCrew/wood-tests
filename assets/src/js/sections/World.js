@@ -1,7 +1,23 @@
-import { WebGLRenderer, PerspectiveCamera, Scene, GridHelper, AmbientLight, TubeGeometry, Mesh, MeshBasicMaterial, Vector3, Curve } from 'three'
+import {
+    WebGLRenderer,
+    PerspectiveCamera,
+    Scene,
+    GridHelper,
+    AmbientLight,
+    BoxGeometry,
+    Mesh,
+    SphereGeometry,
+    MeshStandardMaterial,
+    TextureLoader,
+    SRGBColorSpace,
+    MeshPhongMaterial,
+    Vector3,
+} from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
+
 import { Plane } from "./inc/elements/Plane"
+import { Tube } from './inc/elements/Tube'
 import wood from '../../images/wood.jpeg'
 
 export class World {
@@ -64,58 +80,19 @@ export class World {
             width: 10,
             height: 10,
             depth: 4,
+            cylinderRadius: 3
         })
 
         plane.setTexture( wood )
         plane.onClick( mesh => console.log(mesh) )
 
+        // const tube = new Tube( this.shared )
+        // tube.setTexture( wood )
+        // tube.onClick( mesh => console.log(mesh) )
+
+
+        // this.scene.add(tube.get())
         this.scene.add(plane.get())
-
-
-
-
-
-
-
-
-
-        class CustomSinCurve extends Curve {
-
-            constructor( scale ) {
-
-                super();
-                this.scale = scale;
-
-            }
-            getPoint( t ) {
-
-                const tx = t;
-                const ty = 0// Math.sin( 2 * Math.PI * t );
-                const tz = 0;
-                return new Vector3( tx, ty, tz ).multiplyScalar( this.scale );
-
-            }
-
-        }
-
-        const path = new CustomSinCurve( 10 );
-        const tubularSegments = 100;  
-
-        const radius =  1.5;  
-
-        const radialSegments = 30;  
-
-        const closed = false;  
-        const geometry = new TubeGeometry( path, tubularSegments, radius, radialSegments, closed );
-
-        const tube = new Mesh(
-            geometry,
-            new MeshBasicMaterial({
-                color: 0x00FF00
-            })
-        )
-
-        this.scene.add(tube)
     }
 
 
