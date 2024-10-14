@@ -49,6 +49,10 @@ const rules = [
     {
         test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         type: 'asset/resource',
+    },
+    {
+        test: /\.(glsl|vert|frag)$/,
+        use: 'raw-loader'
     }
 ];
 
