@@ -1,8 +1,8 @@
 /**
  * Base
  */
-@import "base/mixins";
-@import "base/variables";
+@use "base/mixins";
+@use "base/variables";
 // @import "base/extends";
 // @import "base/reset";
 
@@ -16,7 +16,7 @@
 /**
  * Modules
  */
-@import "modules/header";
-@import "modules/pages";
-@import "modules/footer";
+@use "modules/header";
+@use "modules/pages";
+@use "modules/footer";
 

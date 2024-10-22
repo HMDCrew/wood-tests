@@ -1,0 +1,25 @@
+{
+  "name": "assets2",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.8"
+  },
+  "dependencies": {
+    "cannon-es": "^0.20.0",
+    "cannon-es-debugger": "^1.0.0",
+    "cannon-utils": "^0.1.4",
+    "lil-gui": "^0.19.2",
+    "sass": "^1.80.2",
+    "three": "^0.146.0",
+    "tsl": "^1.0.15",
+    "vite-plugin-plain-text": "^1.4.2",
+    "vite-plugin-wasm": "^3.3.0"
+  }
+}

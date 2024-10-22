@@ -17,20 +17,20 @@ get_header();
 
 	<canvas id="c"></canvas>
 	<div class="menu"></div>
-
+<!--
 	<main id="primary" class="site-main">
 
 		<div class="container">
 			<?php
-			while ( have_posts() ) :
-				the_post();
+			// while ( have_posts() ) :
+			// 	the_post();
 
-				get_template_part( 'template-parts/content', 'front' );
+			// 	get_template_part( 'template-parts/content', 'front' );
 
-			endwhile; // End of the loop.
+			// endwhile; // End of the loop.
 			?>
 		</div>
-	</main><!-- #main -->
-
+	</main><!-- #main --
+-->
 <?php
 get_footer();

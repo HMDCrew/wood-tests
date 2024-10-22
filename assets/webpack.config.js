@@ -101,4 +101,12 @@ module.exports = (env, argv) => ({
 
     plugins: plugins(argv),
 
+    experiments: {
+        asyncWebAssembly: true,
+        // syncWebAssembly: true,
+        // layers: true,
+        // lazyCompilation: true,
+        // outputModule: true,
+        // topLevelAwait: true,
+    },
 })

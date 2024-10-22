@@ -51,7 +51,7 @@ export class Item {
         this.raycaster.setFromCamera( this.mouse, this.camera )
 
         const intersected = this.raycaster.intersectObject( this.meshes )
-
+        
         if ( intersected.length ) {
 
             this.gizmo.attach( this.meshes )
@@ -90,4 +90,5 @@ export class Item {
     //     if ( intersected.length ) {
     //     }
     // }
+
 }
